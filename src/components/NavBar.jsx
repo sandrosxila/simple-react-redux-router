@@ -1,0 +1,39 @@
+import classNames from 'classnames';
+import styles from './NavBar.module.css';
+import { Link } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from "/src/features/auth/user";
+
+export const NavBar = () => {
+  const dispatch = useDispatch();
+  const { isLoggedIn, user } = useSelector((state) => state.auth);
+
+  const onSignOutClick = () => {
+    dispatch(logout());
+  }
+
+  return (
+    <nav className={styles.navbar}>
+      <div className={styles.inner}>
+        <div className={styles.items}>
+          <Link className={styles.brand} to="/">
+            <b className={styles.title}>Digital Institute</b>
+          </Link>
+        </div>
+        <div className={classNames(styles.items, styles.right)}>
+          {
+            !isLoggedIn ? (
+              <Link className={classNames(styles.item, styles.link)} to={"/login"}>Login</Link>
+            ) : (
+              <>
+                <Link className={classNames(styles.item, styles.link)} to={`/users/${user.id}`}>Profile</Link>
+                <Link className={classNames(styles.item, styles.link)} to={"/users"}>Users</Link>
+                <button className={classNames(styles.item, styles.link)} onClick={onSignOutClick}>Sign Out</button>
+              </>
+            )
+          }
+        </div>
+      </div>
+    </nav>
+  )
+}
