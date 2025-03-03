@@ -1,13 +1,11 @@
-import axios from 'axios';
+import {createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile} from 'firebase/auth';
+import {auth} from '../firebase';
 
 export const signIn = async (email, password) => {
   try {
-    const res = await axios.post("/signin", {
-      email,
-      password
-    });
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
 
-    return res.data;
+    return { userId: userCredential.user.uid, fullName: userCredential.user.displayName };
   }
   catch (err){
     return err.response.data;
@@ -15,16 +13,25 @@ export const signIn = async (email, password) => {
 }
 
 export const signUp = async (fullName, email, password) => {
-  try {
-    const res = await axios.post("/signup", {
-      email,
-      password,
-      fullName
-    });
-
-    return res.data;
+  try{
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    await updateProfile(userCredential.user, {
+      displayName: fullName
+    })
+    
+    return { userId: userCredential.user.uid }
   }
-  catch (err){
-    return err.response.data;
+  catch(err) {
+    return { error: err.message }
+  }
+}
+
+export const logOut = async () => {
+  try{
+    await signOut(auth)
+  }
+  catch(err) {
+    console.error(err)
+    return { error: err.message }
   }
 }

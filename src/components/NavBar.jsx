@@ -3,12 +3,19 @@ import styles from './NavBar.module.css';
 import { Link } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from "/src/features/auth/user";
+import { logOut } from '../api/auth';
 
 export const NavBar = () => {
   const dispatch = useDispatch();
   const { isLoggedIn, user } = useSelector((state) => state.auth);
 
-  const onSignOutClick = () => {
+  const onSignOutClick = async () => {
+    const res = await logOut();
+    if(res && "error" in res) {
+      alert(res.error);
+      return;
+    }
+
     dispatch(logout());
   }
 
