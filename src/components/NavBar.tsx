@@ -1,13 +1,13 @@
 import classNames from 'classnames';
 import styles from './NavBar.module.css';
 import { Link } from 'react-router';
-import { useDispatch, useSelector } from 'react-redux';
-import { logout } from "/src/features/auth/user";
-import { logOut } from '../api/auth';
+import { logout } from "@/features/auth/user";
+import { logOut } from '@/api/auth';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 
 export const NavBar = () => {
-  const dispatch = useDispatch();
-  const { isLoggedIn, user } = useSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
+  const { isLoggedIn, user } = useAppSelector((state) => state.auth);
 
   const onSignOutClick = async () => {
     const res = await logOut();
@@ -33,7 +33,7 @@ export const NavBar = () => {
               <Link className={classNames(styles.item, styles.link)} to={"/login"}>Login</Link>
             ) : (
               <>
-                <Link className={classNames(styles.item, styles.link)} to={`/users/${user.id}`}>Profile</Link>
+                <Link className={classNames(styles.item, styles.link)} to={`/users/${user!.id}`}>Profile</Link>
                 <Link className={classNames(styles.item, styles.link)} to={"/users"}>Users</Link>
                 <button className={classNames(styles.item, styles.link)} onClick={onSignOutClick}>Sign Out</button>
               </>

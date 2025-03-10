@@ -1,4 +1,4 @@
-import { UsersList } from "/src/components/UsersList"
+import { UsersList } from "@/components/UsersList"
 
 export const UsersPage = () => {
   return (

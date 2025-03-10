@@ -5,7 +5,7 @@ import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import "./index.css";
 
 import axios from "axios";
-import App from "./App.jsx";
+import App from "./App.js";
 import { BrowserRouter } from "react-router";
 import { store } from "./store.js";
 

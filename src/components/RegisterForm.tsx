@@ -1,28 +1,28 @@
 import { useRef, useState } from "react";
 import styles from "./LoginForm.module.css";
-import * as Auth from "/src/api/auth";
-import { login } from "/src/features/auth/user";
-import { useDispatch } from "react-redux";
+import * as Auth from "@/api/auth";
+import { login } from "@/features/auth/user";
 import { useNavigate } from "react-router";
+import { useAppDispatch } from "@/hooks/redux";
 
 export const RegisterForm = () => {
   const navigate = useNavigate();
-  const fullNameRef = useRef(null);
-  const emailRef = useRef(null);
-  const passwordRef = useRef(null);
-  const passwordRepRef = useRef(null);
+  const fullNameRef = useRef<HTMLInputElement | null>(null);
+  const emailRef = useRef<HTMLInputElement | null>(null);
+  const passwordRef = useRef<HTMLInputElement | null>(null);
+  const passwordRepRef = useRef<HTMLInputElement | null>(null);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<{message: string} | null>(null);
 
-  const onSubmit = async (e) => {
+  const onSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const fullName = fullNameRef.current.value;
-    const email = emailRef.current.value;
-    const password = passwordRef.current.value;
-    const repeatedPassword = passwordRepRef.current.value;
+    const fullName = fullNameRef.current?.value ?? '';
+    const email = emailRef.current?.value ?? '';
+    const password = passwordRef.current?.value ?? '';
+    const repeatedPassword = passwordRepRef.current?.value ?? '';
 
     if(fullName.trim() === '' || email.trim() === '' || password.trim() === '' || repeatedPassword.trim() === '') {
       setError({ message: 'Please fill all fields'});
@@ -36,7 +36,7 @@ export const RegisterForm = () => {
 
     const res = await Auth.signUp(fullName, email, password);
 
-    if("error" in res){
+    if("error" in res && res.error){
       setError({ message: res.error });
 
       return;

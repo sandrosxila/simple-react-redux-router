@@ -14,8 +14,13 @@ app.use(json());
 
 // **Get Users (For Debugging)**
 app.get('/users', async (req, res) => {
+  try{
   const results = await admin.auth().listUsers(1000);
   res.json(results.users.map((user) => ({ id: user.uid, fullName: user.displayName, email: user.email })));
+  }
+  catch {
+    return res.status(404).json({ error: 'Could not get users' });
+  }
 });
 
 // **Get Users (For Debugging)**

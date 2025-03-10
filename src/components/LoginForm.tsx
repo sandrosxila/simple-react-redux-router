@@ -1,33 +1,33 @@
 import { useRef, useState } from "react";
 import styles from "./LoginForm.module.css";
-import * as Auth from '/src/api/auth';
-import { login } from '/src/features/auth/user';
-import { useDispatch } from "react-redux";
+import * as Auth from '@/api/auth';
+import { login } from '@/features/auth/user';
 import { Link, useNavigate } from "react-router";
+import { useAppDispatch } from "@/hooks/redux";
 
 export const LoginForm = () => {
   const navigate = useNavigate();
 
-  const emailRef = useRef(null);
-  const passwordRef = useRef(null);
+  const emailRef = useRef<HTMLInputElement | null>(null);
+  const passwordRef = useRef<HTMLInputElement | null>(null);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<{message: string} | null>(null);
 
-  const onSubmit = async (e) => {
+  const onSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const email = emailRef.current.value;
-    const password = passwordRef.current.value;
+    const email = emailRef.current?.value ?? '';
+    const password = passwordRef.current?.value ?? '';
 
-    if(email === '' || password === ''){
+    if(email.trim() === '' || password.trim() === ''){
       setError({ message: "Please fill email and password fields." });
 
       return;
     }
     
-    const res = await Auth.signIn(emailRef.current.value, passwordRef.current.value);
+    const res = await Auth.signIn(email, password);
 
     if("error" in res){
       setError({ message: res.error });
