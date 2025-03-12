@@ -8,17 +8,17 @@ export const getUser = async (userId: string) => {
     return res.data as User;
   }
   catch (err: any){
-    throw (err as AxiosError<{error: string}>).response?.data;
+    throw (err as AxiosError<{ error: string }>).response?.data;
   }
-}
+};
 
 export const getUsers = async () => {
   try {
-    const res = await axios.get("/users");
+    const res = await axios.get('/users');
 
     return res.data as User[];
   }
   catch (err: any){
-    throw (err as AxiosError<{error: string}>).response?.data;
+    throw (err as AxiosError<{ error: string }>).response?.data;
   }
 };

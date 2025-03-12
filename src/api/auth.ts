@@ -1,36 +1,69 @@
-import {createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile} from 'firebase/auth';
-import {auth} from '@/firebase';
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  updateProfile,
+} from 'firebase/auth';
+import { auth } from '@/firebase';
+import { FirebaseError } from 'firebase/app';
 
 export const signIn = async (email: string, password: string) => {
   try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
 
-    return { userId: userCredential.user.uid, fullName: userCredential.user.displayName };
+    return {
+      userId: userCredential.user.uid,
+      fullName: userCredential.user.displayName,
+    };
   }
-  catch (err: any){
-    return err.response!.data as {error: string};
-  }
-}
+  catch (err: unknown) {
+    if(err instanceof FirebaseError){
+      return { error: err.message };
+    }
 
-export const signUp = async (fullName: string, email: string, password: string) => {
-  try{
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    return { error: 'Something went wrong' };
+  }
+};
+
+export const signUp = async (
+  fullName: string,
+  email: string,
+  password: string
+) => {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
     await updateProfile(userCredential.user, {
-      displayName: fullName
-    })
-    
-    return { userId: userCredential.user.uid }
+      displayName: fullName,
+    });
+
+    return { userId: userCredential.user.uid };
   }
-  catch(err: any) {
-    return { error: err.message as string }
+  catch (err: unknown) {
+    if(err instanceof FirebaseError){
+      return { error: err.message as string };
+    }
+
+    return { error: 'Something went wrong' };
   }
-}
+};
 
 export const logOut = async () => {
-  try{
-    await signOut(auth)
+  try {
+    await signOut(auth);
   }
-  catch(err: any) {
-    return { error: err.message as string }
+  catch (err: unknown) {
+    if(err instanceof FirebaseError){
+      return { error: err.message as string };
+    }
+
+    return { error: 'Something went wrong' };
   }
-}
+};

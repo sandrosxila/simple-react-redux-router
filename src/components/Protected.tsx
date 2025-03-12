@@ -1,5 +1,5 @@
 import { useAppSelector } from '@/hooks/redux';
-import { useEffect } from 'react'
+import { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router';
 
 export const Protected = () => {
@@ -14,5 +14,5 @@ export const Protected = () => {
 
   return (
     <Outlet/>
-  )
-}
+  );
+};

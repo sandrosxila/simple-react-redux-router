@@ -1,9 +1,9 @@
-import { useRef, useState } from "react";
-import styles from "./LoginForm.module.css";
-import * as Auth from "@/api/auth";
-import { login } from "@/features/auth/user";
-import { useNavigate } from "react-router";
-import { useAppDispatch } from "@/hooks/redux";
+import { useRef, useState } from 'react';
+import styles from './LoginForm.module.css';
+import * as Auth from '@/api/auth';
+import { login } from '@/features/auth/user';
+import { useNavigate } from 'react-router';
+import { useAppDispatch } from '@/hooks/redux';
 
 export const RegisterForm = () => {
   const navigate = useNavigate();
@@ -14,7 +14,7 @@ export const RegisterForm = () => {
 
   const dispatch = useAppDispatch();
 
-  const [error, setError] = useState<{message: string} | null>(null);
+  const [error, setError] = useState<{ message: string } | null>(null);
 
   const onSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -25,81 +25,81 @@ export const RegisterForm = () => {
     const repeatedPassword = passwordRepRef.current?.value ?? '';
 
     if(fullName.trim() === '' || email.trim() === '' || password.trim() === '' || repeatedPassword.trim() === '') {
-      setError({ message: 'Please fill all fields'});
+      setError({ message: 'Please fill all fields' });
       return;
     }
 
     if(password !== repeatedPassword) {
-      setError({ message: 'Passwords doesn\'t match'});
+      setError({ message: 'Passwords doesn\'t match' });
       return;
     }
 
     const res = await Auth.signUp(fullName, email, password);
 
-    if("error" in res && res.error){
+    if('error' in res && res.error){
       setError({ message: res.error });
 
       return;
     }
 
     setError(null);
-    dispatch(login({id: res.userId, email, fullName }));
-    navigate("/");
+    dispatch(login({ id: res.userId, email, fullName }));
+    navigate('/');
   };
 
   return (
-    <form className={styles.form} onSubmit={onSubmit}>
-      <div className={styles.flexColumn}>
-        <label className={styles.inputLabel}>Full Name </label>
+    <form className={ styles.form } onSubmit={ onSubmit }>
+      <div className={ styles.flexColumn }>
+        <label className={ styles.inputLabel }>Full Name </label>
       </div>
-      <div className={styles.inputForm}>
+      <div className={ styles.inputForm }>
         <input
-          ref={fullNameRef}
+          ref={ fullNameRef }
           placeholder="Enter your Full Name"
-          className={styles.input}
+          className={ styles.input }
           type="text"
         />
       </div>
 
-      <div className={styles.flexColumn}>
-        <label className={styles.inputLabel}>Email </label>
+      <div className={ styles.flexColumn }>
+        <label className={ styles.inputLabel }>Email </label>
       </div>
-      <div className={styles.inputForm}>
+      <div className={ styles.inputForm }>
         <input
-          ref={emailRef}
+          ref={ emailRef }
           placeholder="Enter your Email"
-          className={styles.input}
+          className={ styles.input }
           type="email"
         />
       </div>
 
-      <div className={styles.flexColumn}>
-        <label className={styles.inputLabel}>Password </label>
+      <div className={ styles.flexColumn }>
+        <label className={ styles.inputLabel }>Password </label>
       </div>
-      <div className={styles.inputForm}>
+      <div className={ styles.inputForm }>
         <input
-          ref={passwordRef}
+          ref={ passwordRef }
           placeholder="Enter your Password"
-          className={styles.input}
+          className={ styles.input }
           type="password"
         />
       </div>
 
-      <div className={styles.flexColumn}>
-        <label className={styles.inputLabel}>Repeat Password </label>
+      <div className={ styles.flexColumn }>
+        <label className={ styles.inputLabel }>Repeat Password </label>
       </div>
-      <div className={styles.inputForm}>
+      <div className={ styles.inputForm }>
         <input
-          ref={passwordRepRef}
+          ref={ passwordRepRef }
           placeholder="Repeat Entered Password"
-          className={styles.input}
+          className={ styles.input }
           type="password"
         />
       </div>
 
-      <button className={styles.buttonSubmit}>Sign Up</button>
+      <button className={ styles.buttonSubmit }>Sign Up</button>
 
-      {error && <div className={styles.error}>{error.message}</div>}
+      { error && <div className={ styles.error }>{ error.message }</div> }
     </form>
   );
 };
