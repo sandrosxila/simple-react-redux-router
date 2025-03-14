@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-
+import { motion } from 'motion/react';
 import * as User from '@/api/user';
 
 export const UsersList = () => {
@@ -13,14 +13,32 @@ export const UsersList = () => {
   }
 
   return (
-    <ul>
+    <motion.ul initial="hidden" animate="visible" variants={
+      {
+        visible: {
+          transition: {
+            delayChildren: 0.2,
+            staggerChildren: 0.05
+          }
+        }
+      }
+    }>
       {
         users.map(user => (
-          <li key={ user.id }>
+          <motion.li variants={
+            {
+              hidden: {
+                opacity: 0
+              },
+              visible: {
+                opacity: 1
+              }
+            }
+          } key={ user.id }>
             { user.fullName } - { user.email }
-          </li>
+          </motion.li>
         ))
       }
-    </ul>
+    </motion.ul>
   );
 };

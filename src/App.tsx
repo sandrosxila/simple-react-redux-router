@@ -1,12 +1,12 @@
 import { Route, Routes } from 'react-router';
 import './App.css';
 
-import { HomePage } from '/src/pages/Home';
-import { AboutPage } from '/src/pages/About';
+import { HomePage } from '@/pages/Home';
+import { AboutPage } from '@/pages/About';
 import { LoginPage } from './pages/Login';
 import { RegisterPage } from './pages/Register';
 import { UsersPage } from './pages/Users';
-import { AuthLayout } from '/src/components/AuthLayout';
+import { AuthLayout } from '@/components/AuthLayout';
 import { NavBar } from './components/NavBar';
 import { Protected } from './components/Protected'; 
 

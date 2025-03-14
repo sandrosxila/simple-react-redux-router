@@ -7,8 +7,12 @@ export const getUser = async (userId: string) => {
 
     return res.data as User;
   }
-  catch (err: any){
-    throw (err as AxiosError<{ error: string }>).response?.data;
+  catch (err: unknown){
+    if(err instanceof AxiosError){
+      throw (err as AxiosError<{ error: string }>).response?.data;
+    }
+
+    throw err;
   }
 };
 
@@ -18,7 +22,11 @@ export const getUsers = async () => {
 
     return res.data as User[];
   }
-  catch (err: any){
-    throw (err as AxiosError<{ error: string }>).response?.data;
+  catch (err: unknown){
+    if(err instanceof AxiosError){
+      throw (err as AxiosError<{ error: string }>).response?.data;
+    }
+
+    throw err;
   }
 };

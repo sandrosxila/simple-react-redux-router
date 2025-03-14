@@ -28,6 +28,8 @@ export const NavBar = () => {
           </Link>
         </div>
         <div className={ classNames(styles.items, styles.right) }>
+          <Link className={ classNames(styles.item, styles.link) } to={ '/about' }>About</Link>
+
           {
             !isLoggedIn ? (
               <Link className={ classNames(styles.item, styles.link) } to={ '/login' }>Login</Link>

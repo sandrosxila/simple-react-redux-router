@@ -24,7 +24,6 @@ export default tseslint.config(
       'react-refresh': reactRefresh,
     },
     rules: {
-      ...reactHooks.configs.recommended.rules,
       "indent": [
         "warn",
         2,
@@ -121,6 +120,7 @@ export default tseslint.config(
           "prop": "ignore"
         }
       ],
+      ...reactHooks.configs.recommended.rules,
       'react-refresh/only-export-components': [
         'warn',
         { allowConstantExport: true },

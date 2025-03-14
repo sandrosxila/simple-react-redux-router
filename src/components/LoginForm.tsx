@@ -29,7 +29,7 @@ export const LoginForm = () => {
     
     const res = await Auth.signIn(email, password);
 
-    if('error' in res){
+    if('error' in res && res.error){
       setError({ message: res.error });
 
       return;
